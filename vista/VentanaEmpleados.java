@@ -41,40 +41,29 @@ public class VentanaEmpleados extends JFrame {
         add(lblResumen, BorderLayout.SOUTH);
         conectarEventos();
         refrescarTabla();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(780, 540);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 600);
         setLocationRelativeTo(null); // centra la ventana en la pantalla
     }
     private JPanel construirFormulario() {
         JPanel campos = new JPanel(new GridLayout(5, 2, 8, 8));
-        campos.add(new JLabel("Cédula:"));
-        campos.add(txtCedula);
-        campos.add(new JLabel("Nombre completo:"));
-        campos.add(txtNombre);
-        campos.add(new JLabel("Salario base:"));
-        campos.add(txtSalario);
-        campos.add(new JLabel("Tipo de empleado:"));
-        campos.add(cmbTipo);
-        campos.add(new JLabel("Bonificación (solo administrativos):"));
-        campos.add(txtBonificacion);
-        txtBonificacion.setEnabled(false); // arranca en "Operativo"
-// Array de botones + ciclo for-each para agregarlos todos al panel
-        JPanel botones = new JPanel(new FlowLayout());
-        JButton[] listaBotones = {btnAgregar, btnBuscar, btnActualizar,
-                btnEliminar, btnLimpiar, btnHistorial};
+        campos.add(new JLabel("Cédula:")); campos.add(txtCedula);
+        campos.add(new JLabel("Nombre completo:")); campos.add(txtNombre);
+        campos.add(new JLabel("Salario base:")); campos.add(txtSalario);
+        campos.add(new JLabel("Tipo de empleado:")); campos.add(cmbTipo);
+        campos.add(new JLabel("Bonificación / Comisión %:")); campos.add(txtBonificacion);
 
-        for (JButton boton : listaBotones) {
-            botones.add(boton);
-        }
+        // Botones
+        JPanel botones = new JPanel(new FlowLayout());
+        JButton[] listaBotones = {btnAgregar, btnBuscar, btnActualizar, btnEliminar, btnLimpiar, btnHistorial};
+        for (JButton boton : listaBotones) botones.add(boton);
+
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         panel.add(campos, BorderLayout.CENTER);
         panel.add(botones, BorderLayout.SOUTH);
-        panel.add(new JLabel("Bonificación / Comisión %:"));
-        panel.add(txtBonificacion);
-
         return panel;
     }
+
     // Métodos de apoyo para leer el formulario sin repetir código
     private String texto(JTextField campo) {
         return campo.getText().trim();
@@ -149,6 +138,7 @@ public class VentanaEmpleados extends JFrame {
                 } else {
                     txtBonificacion.setText("");
                 }
+
             } else {
                 JOptionPane.showMessageDialog(this, "No existe empleado.");
             }
