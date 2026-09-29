@@ -68,6 +68,9 @@ public class VentanaEmpleados extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         panel.add(campos, BorderLayout.CENTER);
         panel.add(botones, BorderLayout.SOUTH);
+        panel.add(new JLabel("Bonificación / Comisión %:"));
+        panel.add(txtBonificacion);
+
         return panel;
     }
     // Métodos de apoyo para leer el formulario sin repetir código
@@ -119,6 +122,11 @@ public class VentanaEmpleados extends JFrame {
                 txtBonificacion.setText("");
             }
         });
+        cmbTipo.addActionListener(e -> {
+            String tipo = (String) cmbTipo.getSelectedItem();
+            txtBonificacion.setEnabled(tipo.equals("Administrativo") || tipo.equals("Comercial"));
+        });
+
         btnAgregar.addActionListener(e -> mostrarResultado(controlador.agregarEmpleado(
                 texto(txtCedula), texto(txtNombre), texto(txtSalario),
                 tipoSeleccionado(), texto(txtBonificacion))));
