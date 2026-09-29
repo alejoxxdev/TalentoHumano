@@ -1,6 +1,7 @@
 package controlador;
 import modelo.EmpleadoAdministrativo;
 import modelo.EmpleadoBase;
+import modelo.EmpleadoComercial;
 import modelo.RepositorioEmpleados;
 import java.util.ArrayList;
 /**
@@ -73,7 +74,7 @@ public class EmpleadoControlador {
             }
         }
         return null;
-        
+
     }
     // Fábrica de empleados: decide qué clase instanciar según el tipo
     private EmpleadoBase construirEmpleado(String cedula, String nombre, String salario,
@@ -84,6 +85,11 @@ public class EmpleadoControlador {
             double bono = Double.parseDouble(bonificacion);
             return new EmpleadoAdministrativo(cedula, nombre, salarioBase, bono);
         }
+        if (tipo.equals("Comercial")) {
+            double porcentaje = Double.parseDouble(bonificacion);
+            return new EmpleadoComercial(cedula, nombre, salarioBase, porcentaje);
+        }
+
         return new EmpleadoBase(cedula, nombre, salarioBase);
     }
     // ======================= OPERACIONES CRUD =======================
