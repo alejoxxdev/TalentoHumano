@@ -2,6 +2,8 @@ package vista;
 import controlador.EmpleadoControlador;
 import modelo.EmpleadoAdministrativo;
 import modelo.EmpleadoBase;
+import modelo.EmpleadoComercial;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -133,7 +135,25 @@ public class VentanaEmpleados extends JFrame {
         btnActualizar.addActionListener(e -> mostrarResultado(controlador.actualizarEmpleado(
                 texto(txtCedula), texto(txtNombre), texto(txtSalario),
                 tipoSeleccionado(), texto(txtBonificacion))));
-        btnBuscar.addActionListener(e -> buscar());
+        btnBuscar.addActionListener(e -> {
+            EmpleadoBase emp = controlador.buscarEmpleado(txtCedula.getText());
+            if (emp != null) {
+                txtNombre.setText(emp.getNombre());
+                txtSalario.setText(String.valueOf(emp.getSalarioBase()));
+                cmbTipo.setSelectedItem(emp.getTipo());
+
+                if (emp instanceof EmpleadoAdministrativo) {
+                    txtBonificacion.setText(String.valueOf(((EmpleadoAdministrativo) emp).getBonificacion()));
+                } else if (emp instanceof EmpleadoComercial) {
+                    txtBonificacion.setText(String.valueOf(((EmpleadoComercial) emp).getPorcentajeComision()));
+                } else {
+                    txtBonificacion.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe empleado.");
+            }
+        });
+
         btnEliminar.addActionListener(e -> eliminar());
         btnLimpiar.addActionListener(e -> limpiarFormulario());
         btnHistorial.addActionListener(e -> mostrarHistorial());
